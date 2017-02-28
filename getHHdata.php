@@ -11,17 +11,15 @@ if (mysqli_connect_errno()) {
     exit();
 }
 
-<<<<<<< HEAD
-=======
+
 $actColours = array( 'care_self'=>'#cec', 'care_other'=>'#ace', 'care_house'=>'#eda', 'recreation'=>'#ece', 'travel'=>'#eea', 'food'=>'#cea', 'work'=>'#cde', 'other_category'=>'#eec');
->>>>>>> 40d575df860689c11289ab3dc51050eb2f559526
 
 
 
 //SINGLE HOUSEHOLD
 // ////$householdID = $_GET[hh];
-//$householdID = 8365;
-//$output = get_household_electricity_activities($db, $householdID);
+// $householdID = 8365;
+// $output = get_household_electricity_activities($db, $householdID);
 
 //MULTIPLE HOUSEHOLDS
 // $householdIDs = array(8365, 8285);
@@ -43,7 +41,6 @@ while($HH = mysqli_fetch_assoc($q)) {
     $HHid = array('hhID' => $HH_ID);
     $output[] = array_merge($output_HH,$HHid);
   }
-<<<<<<< HEAD
 }
 
 
@@ -78,33 +75,6 @@ function get_household_electricity_activities($database, $HH_ID) {
       if (is_null($act) === false) {
         $output_HH["users"][] = $act;//this will be an array of length 1 (hopefully!)
       }
-=======
-else
-{
-   $r_user =  mysqli_query($db,$sqlq);
-   $output = array();
-   $userCount = 0;
-   while($userID = mysqli_fetch_assoc($r_user)) {
-
-        $sqlq = "SELECT idActivities,dt_activity,activity,location,enjoyment,category FROM Activities WHERE Meta_idMeta = ". $userID['idMeta'];
-        $r_act =  mysqli_query($db,$sqlq);
-        $activities = array();
-        while($act = mysqli_fetch_assoc($r_act)) {
-            $loc = $act['location'];
-            $act['location_label'] = $actLocation[$loc];
-            $act['period'] = substr_replace($act['dt_activity'],'0:00',-4);
-            $cat = $act['category'];
-            if ($cat == '') { $cat = 'other_category';}
-            $act['dotcolour'] = $actColours[$cat];
-            $activities[] = $act;
-        }
-        $userActivities = array('activities'=>$activities);
-        $userColour = array('dotcolour'=>$dotcolours[$userCount]);
-        $userLabel  = array('label'    =>$labels[$userCount]);
-        $userEntry = array_merge($userID,$userLabel,$userColour,$userActivities);
-        $output["users"][] = $userEntry; // idMeta
-        $userCount +=1;
->>>>>>> 40d575df860689c11289ab3dc51050eb2f559526
     }
 
     //ELECTRICITY

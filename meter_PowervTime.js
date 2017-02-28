@@ -26,18 +26,18 @@ var data = {
 						watt = +watt_v[time_i]; //number, not string :)
 						if (watt > 20 && watt <= 5000) {
 							//var y = watt;
-							var y = get_function_of_power(act.dt_activity, hh.readings[0].time, hh.readings[0].Watt);
-							if (y) {
+							var y = get_function_of_power(act.dt_activity, hh.readings[0].time, hh.readings[0].Watt, 10);
+							// if (y) {
 								activity = act;
 								activity['dt_activity'] = dateParse(act.dt_activity);//IMPORTANT!!! This is a DATE object (time as a variable is not, it is a truncated thing)
 								activity['abs_minutes'] = get_minutes(activity['dt_activity']);
 								activity['watt'] = y; 
-								activity['watt'] = get_function_of_power(act.dt_activity, hh.readings[0].time, hh.readings[0].Watt);
+								//activity['watt'] = get_function_of_power(act.dt_activity, hh.readings[0].time, hh.readings[0].Watt);
 								activity['metaID'] = user.metaID;
 								activity['hhID'] = hh.hhID;
 								activity['category'] = (act.category == "")?"other_category":act.category; //assigns default category
 								activity_power_v.push(act);
-						}
+						//}
 					}
 					}
 				})
@@ -69,8 +69,8 @@ var data = {
 						watt = +watt_v[time_i]; //number, not string :)
 						if (keys.indexOf(act.idActivities) >= 0) { //if this meta
 							if (watt > 20 && watt <= 5000) {
-								//var y = watt;
-								var y = get_mean_of_power(act.dt_activity, hh.readings[0].time, hh.readings[0].Watt, 1); //cannot put zero, since we acts have seconds, and el. readings might not
+								var y = watt;
+								//var y = get_function_of_power(act.dt_activity, hh.readings[0].time, hh.readings[0].Watt, 1); //cannot put zero, since we acts have seconds, and el. readings might not
 								if (y) {
 									activity = act;
 									activity['dt_activity'] = dateParse(act.dt_activity);//IMPORTANT!!! This is a DATE object (time as a variable is not, it is a truncated thing)
@@ -119,7 +119,6 @@ d3.json(apiurl, function(error, json) {
 	d3.json("data.json", function(error, json) {
 	if (error){ console.log(error) } //are we sure if don't want this to be an IF/ELSE?
 		data['act_dict'] = json;
-
 
 	//prepare data in the required format
 	//x = data.get_joint_activity_power(); //activity_power
@@ -228,7 +227,7 @@ d3.json(apiurl, function(error, json) {
 					})
 
 
-	})
+	 })
 
 
 
@@ -236,14 +235,6 @@ d3.json(apiurl, function(error, json) {
 
 
 function add_axes(graph_g, width, height, scaleX, scaleY, x_ticks, y_ticks) {
-	//========== clipping ends of axes ===========
-    // graph_g.append("clipPath")
-    // 		.attr("id", "clip_vertical")
-  		// 	.append("rect")
-  		// 	.attr('x', 0)
-  		// 	.attr('y', 0)
-    // 		.attr("width", width.graph)
-    // 		.attr("height", height.graph);
 
 	//=========== X AXIS ============
 	//MAIN AXIS
@@ -459,7 +450,7 @@ function formatDayTime(date){
 } // end formatDayTime
 
 
-function get_mean_of_power(point_in_time, time_vector, watt_vector, radius) {
+function get_function_of_power(point_in_time, time_vector, watt_vector, radius) {
 	//NB point in time will have non-zero seconds, elements of time vector will not.
 	//Radius is a vector of minutes to left, minutes to right
 	//Each time has to be a string of the format given in dateParse, otherwise will not work
