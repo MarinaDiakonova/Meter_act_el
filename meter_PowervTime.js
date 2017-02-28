@@ -69,8 +69,8 @@ var data = {
 						watt = +watt_v[time_i]; //number, not string :)
 						if (keys.indexOf(act.idActivities) >= 0) { //if this meta
 							if (watt > 20 && watt <= 5000) {
-								var y = watt;
-								//var y = get_function_of_power(act.dt_activity, hh.readings[0].time, hh.readings[0].Watt, 1); //cannot put zero, since we acts have seconds, and el. readings might not
+								//var y = watt;
+								var y = get_function_of_power(act.dt_activity, hh.readings[0].time, hh.readings[0].Watt, 1); //cannot put zero, since we acts have seconds, and el. readings might not
 								if (y) {
 									activity = act;
 									activity['dt_activity'] = dateParse(act.dt_activity);//IMPORTANT!!! This is a DATE object (time as a variable is not, it is a truncated thing)
@@ -155,13 +155,13 @@ d3.json(apiurl, function(error, json) {
 	add_axes(graph_g, width.graph, height.graph, scaleX, scaleY, x_ticks, y_ticks)
 
 
-
+	//this is done so that entertainment is drawn on top of the other points
 	var y = []
 	_.each(x, function (d) {if (d.category != 'ENTERTAINMENT') y.push(d)})
 	_.each(x, function (d) {if (d.category == 'ENTERTAINMENT') y.push(d)})
 	x = y
 
-
+	
 	//how many hhid, mids, and acts there are
 	hh_unique = [],
 		meta_unique = [];
@@ -374,6 +374,9 @@ function append_legend(graph_g, x) {
 							.attr('transform', function(d, i){ 
 								return 'translate(10,' + (i*14 + 10) + ')'
 							})
+	//Dictionary of what to call the entries
+	var ActionCategoryDict = {'TRAVEL': 'Travel', 'FOOD': 'Food', 'HOUSEHOLD': 'Household care', 'PERSONAL':'Personal', 'OTHER':'Other', 'WORK': 'Work', 'CARE': 'Care for others', 'ENTERTAINMENT': 'Recreation'};
+
 	//the actual legend						
 	legend.append('circle')
 			  .attr('r', 5)
@@ -381,7 +384,7 @@ function append_legend(graph_g, x) {
   	legend.append('text')
   		.attr('x', 8)
   		.attr('y', 4)
-  		.text(function(d) {return d}) 
+  		.text(function(d) {return ActionCategoryDict[d]}) 
   	
   	//======== extra funky features =======
   	//making it fade almost into the background when the mouse is not on it
@@ -451,6 +454,7 @@ function formatDayTime(date){
 
 
 function get_function_of_power(point_in_time, time_vector, watt_vector, radius) {
+	//Finds all readings within radius of the 'point in time', puts it into 'temp'. Currently outputs mean of temp, but can make it any function of temp
 	//NB point in time will have non-zero seconds, elements of time vector will not.
 	//Radius is a vector of minutes to left, minutes to right
 	//Each time has to be a string of the format given in dateParse, otherwise will not work
