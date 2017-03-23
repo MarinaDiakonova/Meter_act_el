@@ -102,8 +102,6 @@ var margins = {
 	'graph_top':    20,
 	'graph_left':   120
 }
-<<<<<<< HEAD
-=======
 var width = {
 	"electricity": 650,
 	"el_reading_boxes": 140 //otherwise text does not fit
@@ -120,60 +118,12 @@ var alternative_colour_scheme = ['#fbb4ae','#b3cde3','#ccebc5','#decbe4','#fed9a
 //=================================================================
 
 
-
->>>>>>> 40d575df860689c11289ab3dc51050eb2f559526
 // ########  Read, Prepare the data, call graphs
 var apiurl = 'getHHdata.php';
 d3.json(apiurl, function(error, json) {
 	if (error){ console.log(error) } //are we sure if don't want this to be an IF/ELSE?
 	data.read_in(json);
 
-<<<<<<< HEAD
-	x = data.get_joint_activity_power(); //activity_power
-
-	var tooltip = d3.select('body').append('div').attr("class", "tooltip");
-	var graph_g = prepare_graph_area();
-
-	//set scales
-	scaleX = d3.scaleLog()
-				.domain(d3.extent(x, function(d) { return d.watt }))
-				.range([0, width.graph]);
-	scaleY = d3.scaleBand()
-				.domain(x.map(function(d) { return d.category }))
-				.range([0, height.graph]);
-
-	var activities = graph_g.selectAll('g')
-							.data(x)
-							.enter()
-							.append('g')
-
-	activities.append('circle')
-			  .attr('cx', function(d) {return scaleX(d.watt)})
-			  .attr('cy', function(d) {return scaleY(d.category)})
-			  .attr('r', 5)
-			  .attr('class', function(d) {return d.category})
-
-	var xAxis = d3.axisBottom()
-	    			.ticks(5) 
-	    			.scale(scaleX);	
-	graph_g.append("g")
-			.attr("class", "x-axis")
-	    	.attr("transform", "translate(0," + height.graph + ")")
-	    	.call(xAxis);
-
-	var y_axis_offshift = (scaleY(scaleY.domain()[1]) - scaleY(scaleY.domain()[0]))/2   	
-	var yAxis = d3.axisLeft()
-	    			.ticks("")
-	    			.scale(scaleY);	
-	graph_g.append("g")
-	   		.attr("class", "y-axis")
-	    	.attr("transform", "translate(0,-" + y_axis_offshift +  ")")
-	    	.call(yAxis);
-
-	activities.selectAll('circle')
-				.on('click', function(d) {
-					console.log(d)
-=======
 	var tooltip = d3.select('body').append('div').attr("class", "tooltip");
 	var canvas = d3.select('#canvas') //a Pointer to newly created svg element
 								 .append('svg')
@@ -578,7 +528,6 @@ if (draw_value_points) {
 					data.activities.push(act)
 					periods[bin].activities.push(act)
 					}
->>>>>>> 40d575df860689c11289ab3dc51050eb2f559526
 				})
 				.on("mouseover", function(d) {
 					tooltip.transition()
@@ -600,8 +549,6 @@ if (draw_value_points) {
 
 
 
-<<<<<<< HEAD
-=======
 				} else {
 					act_period["x"] = electricity_zoomScaleX(act_period_lhs);
 					act_period["width"] = (electricity_zoomScaleX(act_period_rhs) - electricity_zoomScaleX(act_period_lhs));
@@ -735,23 +682,9 @@ function append_labels(location_brief, group, scale) {
 										 .data(labels_loc)
 										 .enter()
 										 .append('g')
->>>>>>> 40d575df860689c11289ab3dc51050eb2f559526
 
 })
 
-<<<<<<< HEAD
-function prepare_graph_area() {
-	var canvas = d3.select('#canvas') //a Pointer to newly created svg element
-								 .append('svg')
-								 .attr('width', width.canvas)
-								 .attr('height', height.canvas)
-								 .attr('transform', 'translate(' + margins.canvas_left + ', ' + margins.canvas_top + ')');
-	var graph = d3.select('svg').append('g')
-										.attr('id', 'graph')//to make it easier to identify using the 'elements' on the webpage
-										.attr('transform', 'translate(' + margins.graph_left + ', ' + margins.graph_top + ')');
-	return graph;
-}
-=======
 //add activity rectanges
 var activity_rects = zoom_activities_instances.append('rect')
 											.attr("class", function(d) {
@@ -801,7 +734,7 @@ var activity_rects = zoom_activities_instances.append('rect')
 var enjoyment_icons = zoom_activities_instances.append('image')
 								.attr("clip-path", "url(#activities_clip)")
 								.attr("xlink:href", function(d) {
-									var out = "img/enjoy_" + ((d.activities[0].enjoyment!='undefined')?d.activities[0].enjoyment:"0") + ".png";
+									var out = "../img/enjoy_" + ((d.activities[0].enjoyment!='undefined')?d.activities[0].enjoyment:"0") + ".png";
 									return out;
 								})
                 .attr("x", function(d) { return electricity_zoomScaleX( d.dt_period ) })
@@ -1097,14 +1030,13 @@ var el_reading = el_reading_box.append('text')
 //========================================================================
 
 
->>>>>>> 40d575df860689c11289ab3dc51050eb2f559526
 
 
 function toolbox_label(d){
 		// populate the activity box
 		var html = formatDayTime(d.dt_activity)
-		var enjoy = "<img src=img/enjoy_"+((d.enjoyment!='undefined')?d.enjoyment:"0")+".png width='20px' height='20px'>"
-		var location = "<img src=img/location_"+((d.location!='undefined')?d.location:"0")+".png width='20px' height='20px'>"
+		var enjoy = "<img src=../img/enjoy_"+((d.enjoyment!='undefined')?d.enjoyment:"0")+".png width='20px' height='20px'>"
+		var location = "<img src=../img/location_"+((d.location!='undefined')?d.location:"0")+".png width='20px' height='20px'>"
 		html += '<br>'+d.activity+' '+location+' '+enjoy
 		return html
 	} // toolbox label
@@ -1128,9 +1060,6 @@ function toolbox_label(d){
 
 		return daysOfWeek[dayOfWeek] + ', ' + hour + ':' + (pad + minutes).slice(-pad.length)
 	} // end formatDayTime
-<<<<<<< HEAD
-=======
-
 
 
 
@@ -1260,4 +1189,3 @@ function toolbox_label(d){
 	// rect = canvas.append("rect")
 
 })
->>>>>>> 40d575df860689c11289ab3dc51050eb2f559526

@@ -426,8 +426,8 @@ function prepare_graph_area() {
 function toolbox_label(d){
 		// populate the activity box
 		var html = formatDayTime(d.dt_activity)
-		var enjoy = "<img src=img/enjoy_"+((d.enjoyment!='undefined')?d.enjoyment:"0")+".png width='20px' height='20px'>"
-		var location = "<img src=img/location_"+((d.location!='undefined')?d.location:"0")+".png width='20px' height='20px'>"
+		var enjoy = "<img src=../img/enjoy_"+((d.enjoyment!='undefined')?d.enjoyment:"0")+".png width='20px' height='20px'>"
+		var location = "<img src=../img/location_"+((d.location!='undefined')?d.location:"0")+".png width='20px' height='20px'>"
 		html += '<br>'+d.activity+' '+location+' '+enjoy
 		return html
 	} // toolbox label
