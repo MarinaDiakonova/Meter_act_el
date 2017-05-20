@@ -24,6 +24,7 @@
 </head>
 <body>
 <?php include('../_nav_bar_subfolder.php'); ?>
+
 <script> //========================================================================
 var data = {
     "json":{},
@@ -139,7 +140,7 @@ function(svg_link) {
         .append("path")
         .attr("d", starburst.arc)
         .attr("class", function(d) {return d.data.category})
-        .style("fill", function(d) { if (!d.parent) {return 'white'} }) //so the central node is white
+        .style("fill", function(d) { if (!d.parent) {return 'transparent'} }) //so the central node is white
 
      //option A: text appears on top of arc; trail not highlighted
      //  var arc_text = svg_link.append('text')
@@ -213,8 +214,8 @@ function(d) {
 }
 }
 
-var width = 960,
-    height = 700,
+var width = 600,
+    height = 600,
     radius = (Math.min(width, height) / 2) - 10;
 
 var formatNumber = d3.format(",");//,d");
@@ -223,9 +224,10 @@ var svg = d3.select("body")
 .append("svg")
 .attr("width", width)
 .attr("height", height)
+.attr("class", "centered")
 .append("g")
-.attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")");
-//var starburst_circle = svg.append('circle').attr("r", radius).style("opacity", 0).on("mouseout", function(){d3.selectAll("path").style("opacity",1)})
+.attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")")
+   ;
 
 
 d3.json("../api/app_usage_hierarchy.json", function(error, json) {
@@ -239,11 +241,24 @@ d3.json("../api/app_usage_hierarchy.json", function(error, json) {
         starburst.initialise(root);
 
         // ====== draw the starburst ======
+        logo(svg);
         starburst.draw(svg);
 
         append_legend(svg);
+
         });
 
+function logo(graph_g) {
+var width = 271;
+var my_logo = graph_g.append('g')
+.append("svg:image")
+    // .attr("transform", "translate(" + width / 2 + "," + (height / 2) + ")")
+   .attr('x', -width/2)
+   .attr('y',-180)
+   .attr('width', width)
+   //.attr('height', 220)
+   .attr("xlink:href","../img/logo.png")
+}
 
 function append_legend(graph_g) {
     var legendList = [
@@ -262,7 +277,7 @@ function append_legend(graph_g) {
     //create group and move it to where we want the legend to be
     var my_legend_g = graph_g.append('g')
         .attr('id', 'my_legend')
-        .attr("transform", "translate(235," + legend_height + ")")
+        .attr("transform", "translate(200," + (legend_height - 30) + ")")
         .style('opacity', "1")
 
     var myscale = d3.scaleBand()
@@ -274,18 +289,20 @@ function append_legend(graph_g) {
         .enter()
         .append('g')
         .attr('transform', function(d, i){ 
-                return 'translate(10,' + (i*14 + 10) + ')'
+                return 'translate(10,' + (i*15 + 10) + ')'
                         })
 
         // Legend
         legend.append('circle')
-        .attr('r', 5)
+        .attr('r', 7)
         .attr('class', function(l) {return l}) 
 
         legend.append('text')
-        .attr('x', 8)
+        .attr('x', 10)
         .attr('y', 4)
         .text(function(l) {return l}) 
         }
 d3.select(self.frameElement).style("height", height + "px");
 </script>
+
+</body>
