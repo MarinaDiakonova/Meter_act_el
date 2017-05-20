@@ -3,22 +3,17 @@
 <html lan="en">
 <head>
   <meta charset="utf-8">
-  <title>METER - Energy-use.org</title>
-  <link rel="stylesheet" type="text/css" href="../libs/bootstrap.min.css">
-  <link rel="stylesheet" type="text/css" href="meter.css">
-  <script src="../libs/d3.v3.js"></script>
-  <script src="../libs/lodash.js"></script>
-  <script src="../libs/jquery-2.2.1.min.js"></script>
-  <script src="../libs/bootstrap.min.js"></script>
-  <script src="../libs/d3.min.js"></script>
-  <!-- <script type="text/javascript" src="d3/d3.js"></script> -->
+  <title>METER - Activities</title>
+  <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css" href="../css/PowervTime.css">
+  <?php include('../libs/libs.php'); ?>
 </head>
 <body>
   <?php
     $id='7936';
     if(isset($_GET['id'])){ $id = $_GET['id']; }
     echo '<script>var hhid = "'.$id.'";</script>';
-	include('_nav_bar_yourdata.php');
+	include('../_nav_bar_subfolder.php');
   ?>
 <div class="container">
  <div class="row">
@@ -28,8 +23,7 @@
   <div id="canvas"></div>
   <div class='tooltip'></div>
 
-  <!-- <script type="text/javascript" src="meter.js"></script> -->
-  <script type="text/javascript" src="meter_PowervTime.js"></script>
+  <script type="text/javascript" src="../D3/PowervTime.js"></script>
 
   <!-- Modal for Users -->
   <div class="modal fade" id="modalActivity" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
